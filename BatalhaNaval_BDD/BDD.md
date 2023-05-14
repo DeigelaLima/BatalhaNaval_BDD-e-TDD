@@ -10,7 +10,7 @@
 
 Then: será solicitado o nome dos jogadores.
 
-=======================================================
+=====================================================================================================<p>
 **H02** - Como computador, quero permitir apenas dois participantes no jogo.
 
 **Título do cenário:** Solicitando nome de dois jogadores
@@ -21,7 +21,7 @@ Then: será solicitado o nome dos jogadores.
 
 **Then:** guarde o nome dos jogadores com seus placares zerados.
 
-========================================================
+=====================================================================================================<p>
 **H03** - Como computador, quero posicionar as embarcações no tabuleiro para criar o jogo.
 
 **Título do cenário:** Criando o jogo
@@ -32,7 +32,7 @@ Then: será solicitado o nome dos jogadores.
 
 **Then:** guarde as posições das embarcações.
 
-========================================================
+=====================================================================================================<p>
 **H04** - Como computador, quero mostrar o tabuleiro, a quantidade e tipo de navios presentes.
 
 **Título do cenário:** Imprimindo o tabuleiro, a quantidade e tipo de navios presentes.
@@ -43,7 +43,7 @@ Then: será solicitado o nome dos jogadores.
 
 **Then:** atualize o tabuleiro, a quantidade e tipo de navios restantes.
 
-========================================================
+=====================================================================================================<p>
 **H05** - Como jogador, quero ver o tabuleiro, a quantidade e tipo de navios presentes.
 
 **Título do cenário:** Visualização do tabuleiro, quantidade e tipos de navios.
@@ -54,7 +54,7 @@ Then: será solicitado o nome dos jogadores.
 
 **Then:** mostrar a quantidade e tipos de navios.
 
-========================================================
+=====================================================================================================<p>
 **H06** - Como jogador, quero escolher uma linha e uma coluna para lançar a bomba para afundar uma embarcação inimiga.
 
 **1 - Título do cenário:** Jogando bomba em uma embarcação
@@ -75,7 +75,7 @@ And imprima o tabuleiro
 **Then:** Mantenha o placar do jogador
 And imprima o tabuleiro
 
-========================================================
+======================================================================================================<p>
 **H07** - Como computador, quero receber o valor da linha e da coluna no tabuleiro para jogar a bomba do jogador atual.
 
 **Título do cenário:** Recebendo valores da posição da bomba a ser jogada.
@@ -86,7 +86,7 @@ And imprima o tabuleiro
 
 **Then:** Atualize o placar e o tabuleiro com a nova posição descoberta.
 
-========================================================
+=======================================================================================================<p>
 **H08** - Como computador, quero imprimir na tela o tabuleiro e o placar após um lance para que o usuário fique informado.
 
 **1 - Título do cenário:** Atualizando estado do jogo após acertar a posição de uma embarcação
@@ -105,7 +105,7 @@ And imprima o tabuleiro
 
 **Then:** Imprima o tabuleiro atualizado com a posição da água descoberta e imprima o mesmo placar.
 
-========================================================
+========================================================================================================<p>
 **H09** -  Como jogador, quero receber feedback visual sobre meus lances e acertos no tabuleiro, para que eu possa acompanhar o progresso do jogo e planejar meus próximos lances com mais eficácia.
 
 **1 - Título do cenário:** Feedback de lance correto
@@ -140,7 +140,7 @@ And imprima o tabuleiro
 
 **Then:** Jogador visualiza a mensagem “a coordenada inserida já foi atingida, tente novamente”; o tabuleiro é exibido e não há nada a ser atualizado no tabuleiro; o sistema aguardará novo input do jogador
 
-=======================================================
+=====================================================================================================<p>
 **H10** - Como jogador, quero saber o meu placar e do meu adversário para saber quem está ganhando o jogo.
 
 **Título do cenário:** Exibindo placar do jogo
@@ -151,7 +151,7 @@ And imprima o tabuleiro
 
 **Then:** O placar será exibido, juntamente com o feedback do lance.
 
-=======================================================
+=====================================================================================================<p>
 **H11** - Como computador, quero informar qual jogador está jogando agora.
 
 **Título do cenário:** Jogo do tabuleiro com dois jogadores.
@@ -162,7 +162,7 @@ And imprima o tabuleiro
 
 **Then:** O computador exibe na tela as informações do jogador atual em sua vez de jogar.
 
-=======================================================
+=====================================================================================================<p>
 **H12** - Como jogador, quero ser informado quando o jogo acabar.
 
 **Título do cenário:** Disputa dois jogadores no jogo de tabuleiro.
@@ -173,7 +173,7 @@ And imprima o tabuleiro
 
 **Then:** Quando o jogo terminar, o computador exibirá uma mensagem clara e visível na tela, indicando que o jogo acabou.
 
-=======================================================
+========================================================================================================<p>
 **H13** - Como computador, quero informar que o jogo acabou quando não houver embarcações restantes.
 
 **Título do cenário:** O jogo da batalha naval acabou.
