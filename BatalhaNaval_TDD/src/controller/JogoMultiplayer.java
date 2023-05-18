@@ -33,30 +33,30 @@ public class JogoMultiplayer {
 		return this.jogador2;
 	}
 
-	public boolean jogar(int linha, int coluna){
-	
-		String[][] tabuleiro_aux = {{"<>","~"}};
+//	public boolean jogar(int linha, int coluna){
+//	
+//		String[][] tabuleiro_aux = {{"<>","~"}};
 		//if(tabuleiro.getTipoNavios().contains(tabuleiro_aux[linha][coluna])){
 		//	return true;
 		//}
 		//return false;
 		
-		 if(tabuleiro.posicaoValida(linha, coluna)) {
-		        if(tabuleiro[linha][coluna] == 'O') {
-		            // acertou um navio
-		            tabuleiro[linha][coluna] = 'X';
-	            	naviosRestantes--;
-		            tabuleiro.atualizarTiposNaviosRestantes();		            
-					System.out.println("Acertou um navio!");
-	        }else{
-		            // acertou água
-		            tabuleiro[linha][coluna] = '-';
-		            System.out.println("Errou!");
-		        }
-		    }else{
-		        System.out.println("Posição inválida!");
-		    }
+//		 if(tabuleiro.posicaoValida(linha, coluna)) {
+//		        if(tabuleiro[linha][coluna] == 'O') {
+//		            // acertou um navio
+//		            tabuleiro[linha][coluna] = 'X';
+//	            	naviosRestantes--;
+//		            tabuleiro.atualizarTiposNaviosRestantes();		            
+//					System.out.println("Acertou um navio!");
+//	        }else{
+//		            // acertou água
+//		            tabuleiro[linha][coluna] = '-';
+//		            System.out.println("Errou!");
+//		        }
+//		    }else{
+//		        System.out.println("Posição inválida!");
+//		    }
 		 
-	}
+//	}
 
 }
