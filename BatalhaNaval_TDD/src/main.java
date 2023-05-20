@@ -32,6 +32,7 @@ public class main {
             System.out.println("Digite o nome do jogador 2");
             String nomeJ2 = sc.nextLine();
             jogo.escolherJogador2(nomeJ2);
+            
 
             while(jogo.jogoValendo()){
                 String jogadorDaVez = jogo.getJogadorDaVez() ? jogo.getJogador1().getNome() : jogo.getJogador2().getNome();
@@ -63,69 +64,3 @@ public class main {
     }
 }
 
-/* 
-
-public void imprimirTabuleiroSemEmbarcacoes() {
-	pularLinha();
-	int nVertical = 0;
-
-	linhaNumericaHorizontal();
-
-	pularLinha();
-
-	for (int i = 0; i < linhas.length; i++) {
-		System.out.print(nVertical);
-		++nVertical;
-		for (int j = 0; j < linhas[i].length; j++) {
-			// System.out.print(linhas[i][j] +" ");
-
-			if (linhas[i][j] == 10) {
-				System.out.print(" | b | ");
-			} else if (linhas[i][j] == 20) {
-				System.out.print(" | * | ");
-			} else {
-				System.out.print(" |   | ");
-			}
-
-		}
-		pularLinha();
-		criarsuporteLinhaHorizontal();
-		pularLinha();
-
-	}
-	pularLinha();
-}
-
-public void imprimirTabuleiro() {
-	pularLinha();
-	int nVertical = 0;
-
-	linhaNumericaHorizontal();
-
-	pularLinha();
-
-	for (int i = 0; i < linhas.length; i++) {
-		System.out.print(nVertical);
-		++nVertical;
-		for (int j = 0; j < linhas[i].length; j++) {
-			// System.out.print(linhas[i][j] +" ");
-
-			if (linhas[i][j] == 1 || linhas[i][j] == 2 || linhas[i][j] == 3 || linhas[i][j] == 4) {
-				System.out.print(" | x | ");
-			} else if (linhas[i][j] == 10) {
-				System.out.print(" | b | ");
-			} else if (linhas[i][j] == 20) {
-				System.out.print(" | * | ");
-			} else {
-				System.out.print(" |   | ");
-			}
-
-		}
-		pularLinha();
-		criarsuporteLinhaHorizontal();
-		pularLinha();
-
-	}
-	pularLinha();
-}
-*/

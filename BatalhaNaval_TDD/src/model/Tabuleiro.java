@@ -40,7 +40,7 @@ public class Tabuleiro {
 		this.qtdNavios = 6;
 		this.qtdNaviosRestantes = 6;
 		tabuleiroGabarito = gerarTabuleiro();
-		preencherTabuleiro(tabuleiroJogador, '*');
+		preencherTabuleiro(tabuleiroJogador, ' ');
 	}
 	// TO-DO dois tabuleiros: 1 é o gabarito e o outro é do jogador
 	// a O quer dizer a bomba jogada em uma parte do navio
@@ -278,7 +278,7 @@ public class Tabuleiro {
     }
 
 	private static final int TAMANHO_TABULEIRO = 10;
-    private static final char[] NAVIOS = {'A', 'B', 'C', 'D'};
+    private static final char[] NAVIOS = {'A', 'B', 'B', 'C', 'C', 'D'};
 
 	public static char[][] gerarTabuleiro() {
         char[][] tabuleiro = new char[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO];
@@ -343,24 +343,32 @@ public class Tabuleiro {
     }
 
     public static void exibirTabuleiro(char[][] tabuleiro) {
+		System.out.println("     0      1      2      3      4      5      6      7      8      9  "); // Cabeçalho das colunas
+
         for (int i = 0; i < TAMANHO_TABULEIRO; i++) {
+			System.out.print( (char)(i + 65) + " "); // Número da linha
+
             for (int j = 0; j < TAMANHO_TABULEIRO; j++) {
-                System.out.print(tabuleiro[i][j] + " ");
+                System.out.print( " | " + tabuleiro[i][j]  + " | ");
             }
-            System.out.println();
+			System.out.print("\n   -----  -----  -----  -----  -----  -----  -----  -----  -----  -----");
+	
+	        System.out.println(); // Próxima linha
         }
     }
 
 	public void imprimir(){
-	//	exibirTabuleiro(tabuleiroJogador);
-		System.out.println("  0 1 2 3 4 5 6 7 8 9"); // Cabeçalho das colunas
+		//exibirTabuleiro(tabuleiroJogador);
+		System.out.println("     0      1      2      3      4      5      6      7      8      9  "); // Cabeçalho das colunas
 
 	    for (int i = 0; i < dimensao; i++) {
 	        System.out.print( (char)(i + 65) + " "); // Número da linha
 			
 	        for (int j = 0; j < tabuleiroJogador[i].length; j++) {
-	            System.out.print(tabuleiroJogador[i][j] + " "); // Valor da posição
+	            System.out.print( " | " + tabuleiroJogador[i][j] + " | "); // Valor da posição
 	        }
+
+			System.out.print("\n   -----  -----  -----  -----  -----  -----  -----  -----  -----  -----");
 	
 	        System.out.println(); // Próxima linha
 	    }

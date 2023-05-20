@@ -35,6 +35,7 @@ public class JogoMultiplayer {
 	}
 
 	public boolean jogoValendo(){
+		tabuleiro.imprimirGabarito();
 		if(tabuleiro.getQuantidadeNaviosRestantes()==0){
 			if(jogador1.getPlacar()>jogador2.getPlacar()){
 				System.out.println("Jogador 1 ganhou!");
