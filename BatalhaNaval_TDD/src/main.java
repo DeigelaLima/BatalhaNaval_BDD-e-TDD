@@ -1,4 +1,4 @@
-package view;
+
 
 import java.util.Scanner;
 
@@ -63,6 +63,7 @@ public class main {
     }
 }
 
+/* 
 
 public void imprimirTabuleiroSemEmbarcacoes() {
 	pularLinha();
@@ -127,3 +128,4 @@ public void imprimirTabuleiro() {
 	}
 	pularLinha();
 }
+*/

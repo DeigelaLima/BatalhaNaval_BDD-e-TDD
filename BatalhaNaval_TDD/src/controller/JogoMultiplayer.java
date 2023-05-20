@@ -60,6 +60,8 @@ public class JogoMultiplayer {
 				jogador2.aumentaPlacar();
 			}
 			this.jogadorDaVez = !this.jogadorDaVez;
+		}else{
+			this.jogadorDaVez = !this.jogadorDaVez;
 		}
 
 	}

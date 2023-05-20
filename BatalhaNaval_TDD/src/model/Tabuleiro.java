@@ -356,7 +356,7 @@ public class Tabuleiro {
 		System.out.println("  0 1 2 3 4 5 6 7 8 9"); // Cabeçalho das colunas
 
 	    for (int i = 0; i < dimensao; i++) {
-	        System.out.print( i + " "); // Número da linha
+	        System.out.print( (char)(i + 65) + " "); // Número da linha
 			
 	        for (int j = 0; j < tabuleiroJogador[i].length; j++) {
 	            System.out.print(tabuleiroJogador[i][j] + " "); // Valor da posição
