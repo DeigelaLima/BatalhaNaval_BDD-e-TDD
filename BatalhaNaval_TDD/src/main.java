@@ -26,6 +26,9 @@ public class main {
 
         String partida;
         do{
+            //IMPRIME GABARITO
+            jogo.imprimirGabarito();
+            //
             System.out.println("Digite o nome do jogador 1");
             String nomeJ1 = sc.nextLine();
             jogo.escolherJogador1(nomeJ1);
@@ -39,12 +42,11 @@ public class main {
                 System.out.println("Jogador atual: "+jogadorDaVez);
                 System.out.println("Escolha uma linha entre A e J");
                 String linha = sc.next();
-                linha.toUpperCase();
-                int posLinha = linha.charAt(0)-'A';
                 System.out.println("Escolha uma coluna entre 0 e 9");
-                int coluna = sc.nextInt();
+                String coluna = sc.next();
+            
                 try{
-                    jogo.jogar(posLinha, coluna);
+                    jogo.jogar(linha, coluna);
                 }catch(IllegalArgumentException e){
                     System.out.println(e.getMessage());
         			System.out.println("***************************************************************************");

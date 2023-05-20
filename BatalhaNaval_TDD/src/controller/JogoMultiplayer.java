@@ -35,7 +35,6 @@ public class JogoMultiplayer {
 	}
 
 	public boolean jogoValendo(){
-		tabuleiro.imprimirGabarito();
 		if(tabuleiro.getQuantidadeNaviosRestantes()==0){
 			if(jogador1.getPlacar()>jogador2.getPlacar()){
 				System.out.println("Jogador 1 ganhou!");
@@ -51,8 +50,22 @@ public class JogoMultiplayer {
 		}
 	}
 
-	public void jogar(int i, int j){
-		boolean acertou = tabuleiro.jogar(i, j);
+	public void jogar(String i, String j){
+		i.toUpperCase();
+        int posLinha = i.charAt(0)-'A';
+
+		int posColuna = 0;
+		try{
+			posColuna = Integer.parseInt(j);
+		}catch(Exception e){
+			System.out.println("Coluna inválida! Tente novamente...");
+		}
+
+		if (posLinha < 0 || posLinha >= 10 || posColuna < 0 || posColuna >= 10) {
+			throw new IllegalArgumentException("Coordenadas inválidas. Tente novamente!");
+		}
+		
+		boolean acertou = tabuleiro.jogar(posLinha, posColuna);
 
 		if(acertou){
 			if(getJogadorDaVez()){
@@ -71,4 +84,7 @@ public class JogoMultiplayer {
 		return this.jogadorDaVez;
 	}
 
+	public void imprimirGabarito(){
+		tabuleiro.imprimirGabarito();
+	}
 }

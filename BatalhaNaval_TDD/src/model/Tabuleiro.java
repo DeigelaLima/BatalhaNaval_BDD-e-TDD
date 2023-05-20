@@ -246,10 +246,6 @@ public class Tabuleiro {
 
 
 	public boolean jogar(int i, int j) {
-		
-		if (i < 0 || i >= tabuleiroGabarito.length || j < 0 || j >= tabuleiroGabarito[0].length) {
-			throw new IllegalArgumentException("Coordenadas inválidas. Tente novamente!");
-		}
 		if(tabuleiroJogador[i][j]=='O' || tabuleiroJogador[i][j]=='~' ){
 			System.out.println("***************************************************************************");
 			throw new IllegalArgumentException("Essa posição já foi escolhida. Por favor tente novamente!\n");
