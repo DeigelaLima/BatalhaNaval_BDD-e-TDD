@@ -39,7 +39,16 @@ public class Tabuleiro {
 	public Tabuleiro(){
 		this.qtdNavios = 6;
 		this.qtdNaviosRestantes = 6;
+		tabuleiroGabarito = gerarTabuleiro();
+		preencherTabuleiro(tabuleiroJogador, '*');
 	}
+	// TO-DO dois tabuleiros: 1 é o gabarito e o outro é do jogador
+	// a O quer dizer a bomba jogada em uma parte do navio
+	// no tabuleiro do gabarito terá somente os tipos A, B, C ou D
+	// Passo a passo:
+	// Quando encontrar O verifica o tipo do navio no gabarito
+	// Verifica se ja foi afundado no tabuleiro do jogador
+	// Se foi afundado, atualiza o contador de navios restantes
 
 
 	public void criarTabuleiro() {
@@ -94,13 +103,6 @@ public class Tabuleiro {
 	
 
 	public int getQuantidadeNaviosRestantes() {
-		// TO-DO dois tabuleiros: 1 é o gabarito e o outro é do jogador
-		// a O quer dizer a bomba jogada em uma parte do navio
-		// no tabuleiro do gabarito terá somente os tipos A, B, C ou D
-		// Passo a passo:
-		// Quando encontrar O verifica o tipo do navio no gabarito
-		// Verifica se ja foi afundado no tabuleiro do jogador
-		// Se foi afundado, atualiza o contador de navios restantes
 		return this.qtdNaviosRestantes;
 	}
 
@@ -240,73 +242,36 @@ public class Tabuleiro {
 		return tipoNavios.contains(tabuleiroGabarito[i][j]);
 	}
 
-	// Método auxiliar para verificar se todos os navios adjacentes a uma posição foram afundados
-	private boolean verificaAdjacentes(int i, int j) {
-		int tamanhoNavio = getTipoNavio(i, j);
-
-		// Verificar se as coordenadas estão dentro dos limites do tabuleiro
-		if (i < 0 || i >= tabuleiroGabarito.length || j < 0 || j >= tabuleiroGabarito.length) {
-			return false;
-		}
-
-		//percorre na horizontal
-		for(int x=tamanhoNavio; x>0; x++){
-
-		}
-		//percorre na vertical
-		for(int x=tamanhoNavio; x>0; x++){
-			// Verificar se há um navio adjacente não afundado na posição acima
-			if (i > 0 && temNavio(i-1, j) && tabuleiroJogador[i - 1][j]!='O') {
-				return false;
-			}
-		}
-
-		// Verificar se há um navio adjacente não afundado na posição acima
-		if (i > 0 && temNavio(i-1, j) && tabuleiroJogador[i - 1][j]!='O') {
-			return false;
-		}
-
-		// Verificar se há um navio adjacente não afundado na posição abaixo
-		if (i < tabuleiroGabarito.length - 1  && temNavio(i+1,j) && tabuleiroJogador[i + 1][j]!='O') {
-			return false;
-		}
-		
-		// Verificar se há um navio adjacente não afundado na posição a esquerda
-		if (j > 0 && temNavio(i,j-1) && tabuleiroGabarito[i][j - 1]!='O') {
-			return false;
-		}
-
-		// Verificar se há um navio adjacente não afundado na posição a direita
-		if (j < tabuleiroGabarito.length - 1 && temNavio(i, j+1) && tabuleiroJogador[i][j + 1]!='O') {
-			return false;
-		}
-
-		return true; // Todos os navios adjacentes foram afundados
-	}
+	
 
 
 	public boolean jogar(int i, int j) {
 		
-		// olha no gabarito a posição i,j
-		// se tiver embarcação (A,B,C,D) retorne True
-		// se não retorne False
+		if (i < 0 || i >= tabuleiroGabarito.length || j < 0 || j >= tabuleiroGabarito[0].length) {
+			throw new IllegalArgumentException("Coordenadas inválidas. Tente novamente!");
+		}
+		if(tabuleiroJogador[i][j]=='O' || tabuleiroJogador[i][j]=='~' ){
+			System.out.println("***************************************************************************");
+			throw new IllegalArgumentException("Essa posição já foi escolhida. Por favor tente novamente!\n");
 
+		}
 		if(tipoNavios.contains(tabuleiroGabarito[i][j])){
+			tabuleiroJogador[i][j] = 'O';
 			if(verificarAfundamento(tabuleiroJogador,i,j)){
 				afundarNavio();
 			}	
+			//exibirTabuleiro(tabuleiroJogador);
+			imprimir();
 			return true;
 		}else{
+			tabuleiroJogador[i][j] = '~';
+			//exibirTabuleiro(tabuleiroJogador);
+			imprimir();
 			return false;
 		}
 	}
 
 	
-
-	public void imprimir() {
-		
-		
-	}
     
     public ArrayList<Character> getTipoNavios(){
         return tipoNavios;
@@ -385,4 +350,25 @@ public class Tabuleiro {
             System.out.println();
         }
     }
+
+	public void imprimir(){
+	//	exibirTabuleiro(tabuleiroJogador);
+		System.out.println("  0 1 2 3 4 5 6 7 8 9"); // Cabeçalho das colunas
+
+	    for (int i = 0; i < dimensao; i++) {
+	        System.out.print( i + " "); // Número da linha
+			
+	        for (int j = 0; j < tabuleiroJogador[i].length; j++) {
+	            System.out.print(tabuleiroJogador[i][j] + " "); // Valor da posição
+	        }
+	
+	        System.out.println(); // Próxima linha
+	    }
+	}
+
+	public void imprimirGabarito(){
+		exibirTabuleiro(tabuleiroGabarito);
+	}
+
+	
 }

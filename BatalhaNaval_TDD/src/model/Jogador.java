@@ -25,4 +25,8 @@ public class Jogador {
     public void setPlacar(int placar){
         this.placar = placar;
     }
+
+    public void aumentaPlacar(){
+        this.placar = this.placar + 1;
+    }
 }

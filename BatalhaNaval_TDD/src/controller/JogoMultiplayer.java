@@ -7,10 +7,11 @@ public class JogoMultiplayer {
     private Jogador jogador1;
     private Jogador jogador2;
 	private Tabuleiro tabuleiro;
+	private boolean jogadorDaVez;// false - J1 / true - J2
 
 	public void iniciarJogo() {
 		this.tabuleiro = new Tabuleiro();
-		this.tabuleiro.criarTabuleiro();
+		this.jogadorDaVez = true;
 		
 	}
 
@@ -33,30 +34,38 @@ public class JogoMultiplayer {
 		return this.jogador2;
 	}
 
-//	public boolean jogar(int linha, int coluna){
-//	
-//		String[][] tabuleiro_aux = {{"<>","~"}};
-		//if(tabuleiro.getTipoNavios().contains(tabuleiro_aux[linha][coluna])){
-		//	return true;
-		//}
-		//return false;
-		
-//		 if(tabuleiro.posicaoValida(linha, coluna)) {
-//		        if(tabuleiro[linha][coluna] == 'O') {
-//		            // acertou um navio
-//		            tabuleiro[linha][coluna] = 'X';
-//	            	naviosRestantes--;
-//		            tabuleiro.atualizarTiposNaviosRestantes();		            
-//					System.out.println("Acertou um navio!");
-//	        }else{
-//		            // acertou água
-//		            tabuleiro[linha][coluna] = '-';
-//		            System.out.println("Errou!");
-//		        }
-//		    }else{
-//		        System.out.println("Posição inválida!");
-//		    }
-		 
-//	}
+	public boolean jogoValendo(){
+		if(tabuleiro.getQuantidadeNaviosRestantes()==0){
+			if(jogador1.getPlacar()>jogador2.getPlacar()){
+				System.out.println("Jogador 1 ganhou!");
+			}else{
+				System.out.println("Jogador 2 ganhou!");
+			}
+			System.out.println(String.format("Pontuação: Jogador 1 - %d / Jogador 2 - %d", 
+				jogador1.getPlacar(),jogador2.getPlacar()));
+
+			return false;
+		}else{
+			return true;
+		}
+	}
+
+	public void jogar(int i, int j){
+		boolean acertou = tabuleiro.jogar(i, j);
+
+		if(acertou){
+			if(getJogadorDaVez()){
+				jogador1.aumentaPlacar();
+			}else{
+				jogador2.aumentaPlacar();
+			}
+			this.jogadorDaVez = !this.jogadorDaVez;
+		}
+
+	}
+
+	public boolean getJogadorDaVez(){
+		return this.jogadorDaVez;
+	}
 
 }
