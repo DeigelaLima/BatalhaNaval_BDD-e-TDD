@@ -37,7 +37,7 @@ public class Tabuleiro {
 	}
 	
 	public boolean posicaoValida(int linha, int coluna) {
-		if((linha < dimensao) && (coluna < dimensao)){
+		if((linha < tabuleiroGabarito.length) && (coluna < tabuleiroGabarito.length)){
 			return true;
 		}
 		return false;
@@ -211,7 +211,7 @@ public class Tabuleiro {
 	private static final int TAMANHO_TABULEIRO = 10;
     private static final char[] NAVIOS = {'A', 'B', 'B', 'C', 'C', 'D'};
 
-	public static char[][] gerarTabuleiro() {
+	public char[][] gerarTabuleiro() {
         char[][] tabuleiro = new char[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO];
         preencherTabuleiro(tabuleiro, '~'); // preenche o tabuleiro com '~' (representando água)
 
@@ -233,7 +233,7 @@ public class Tabuleiro {
         return tabuleiro;
     }
 
-    public static boolean podeInserirNavio(char[][] tabuleiro, int linha, int coluna, boolean vertical, char navio) {
+    public boolean podeInserirNavio(char[][] tabuleiro, int linha, int coluna, boolean vertical, char navio) {
         int tamanhoNavio = navio - 'A' + 1;
         int linhaFinal = vertical ? linha + tamanhoNavio - 1 : linha;
         int colunaFinal = vertical ? coluna : coluna + tamanhoNavio - 1;
@@ -253,7 +253,7 @@ public class Tabuleiro {
         return true;
     }
 
-    public static void inserirNavio(char[][] tabuleiro, int linha, int coluna, boolean vertical, char navio) {
+    public  void inserirNavio(char[][] tabuleiro, int linha, int coluna, boolean vertical, char navio) {
         int tamanhoNavio = navio - 'A' + 1;
 
         for (int i = 0; i < tamanhoNavio; i++) {
@@ -265,21 +265,22 @@ public class Tabuleiro {
         }
     }
 
-    public static void preencherTabuleiro(char[][] tabuleiro, char valor) {
+    public void preencherTabuleiro(char[][] tabuleiro, char valor) {
         for (int i = 0; i < tabuleiro.length; i++) {
-            for (int j = 0; j < tabuleiro.length; j++) {
+            for (int j = 0; j < tabuleiro[0].length; j++) {
                 tabuleiro[i][j] = valor;
             }
         }
     }
 
-    public static void exibirTabuleiro(char[][] tabuleiro) {
+    public  void exibirTabuleiro(char[][] tabuleiro) {
+    	
 		System.out.println("     0      1      2      3      4      5      6      7      8      9  "); // Cabeçalho das colunas
 
-        for (int i = 0; i < TAMANHO_TABULEIRO; i++) {
+        for (int i = 0; i < tabuleiro.length; i++) {
 			System.out.print( (char)(i + 65) + " "); // Número da linha
 
-            for (int j = 0; j < TAMANHO_TABULEIRO; j++) {
+            for (int j = 0; j < tabuleiro.length; j++) {
                 System.out.print( " | " + tabuleiro[i][j]  + " | ");
             }
 			System.out.print("\n   -----  -----  -----  -----  -----  -----  -----  -----  -----  -----");
@@ -292,7 +293,7 @@ public class Tabuleiro {
 		//exibirTabuleiro(tabuleiroJogador);
 		System.out.println("     0      1      2      3      4      5      6      7      8      9  "); // Cabeçalho das colunas
 
-	    for (int i = 0; i < dimensao; i++) {
+	    for (int i = 0; i < tabuleiroJogador.length; i++) {
 	        System.out.print( (char)(i + 65) + " "); // Número da linha
 			
 	        for (int j = 0; j < tabuleiroJogador[i].length; j++) {
@@ -319,10 +320,19 @@ public class Tabuleiro {
 		
 	}
 	
-	
 	public List<Character> getTiposNaviosRestantes() {
 	    return tiposNaviosRestantes;
 	}
+	
+	public char[][] getTabuleiroJogador(){
+		return this.tabuleiroJogador;
+	}
 
+
+	public void setQuantidadeNaviosRestantes(int i) {
+		this.qtdNaviosRestantes=i;
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

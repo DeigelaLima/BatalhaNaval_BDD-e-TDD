@@ -2,6 +2,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -154,14 +156,6 @@ public class TesteTabuleiro {
 		assertEquals(resultadoEsperado, temNavio);
 	}
 
-	public static void preencherTabuleiro(char[][] tabuleiro, char valor) {
-		for (int i = 0; i < TAMANHO_TABULEIRO; i++) {
-			for (int j = 0; j < TAMANHO_TABULEIRO; j++) {
-				tabuleiro[i][j] = valor;
-			}
-		}
-	}
-
 	@Test
 	public void testVerificarAfundamentoHorizontal() {
 		char[][] matriz = new char[][] { { 'B', 'B', '~' }, 
@@ -219,10 +213,9 @@ public class TesteTabuleiro {
 		assertFalse(afundamentoVertical);
 	}
 
-	private static final int TAMANHO_TABULEIRO = 3;
-
 	@Test
 	public void testPreencherTabuleiro() {
+		int TAMANHO_TABULEIRO = 3;
 		char[][] exTabuleiro = new char[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO];
 		char valor = 'O';
 
@@ -234,38 +227,278 @@ public class TesteTabuleiro {
 			}
 		}
 	}
+	
+	 private static final int TAMANHO_TABULEIRO_ = 10;
 
-}
+    @Test
+    public void testPodeInserirNavioVertical() {
+//        char[][] exTabuleiro = new char[TAMANHO_TABULEIRO_][TAMANHO_TABULEIRO_];
+        char[][] matriz = new char[][] { { '~', '~', 'A' }, 
+			 							 { '~', '~', '~' }, 
+			 							 { '~', '~', '~' } };
+        int linha = 0;
+        int coluna = 0;
+        boolean vertical = true;
+        char navio = 'B';
+
+        boolean podeInserirNavio = tabuleiro.podeInserirNavio(matriz, linha, coluna, vertical, navio);
+
+        assertTrue(podeInserirNavio);
+    }
+
+	@Test
+    public void testPodeInserirNavioHorizontal() {
+		char[][] matriz = new char[][] { { '~', '~', 'A' }, 
+			 							 { '~', '~', '~' }, 
+			 							 { '~', '~', '~' } };
+        int linha = 0;
+        int coluna = 0;
+        boolean vertical = false;
+        char navio = 'B';
+
+        boolean podeInserirNavio = tabuleiro.podeInserirNavio(matriz, linha, coluna, vertical, navio);
+
+        assertTrue(podeInserirNavio);
+    }
+	
+	@Test
+    public void testPodeInserirNavioComColisao() {
+        char[][] exTabuleiro = new char[TAMANHO_TABULEIRO_][TAMANHO_TABULEIRO_];
+        exTabuleiro[0][0] = 'A';
+        int linha = 0;
+        int coluna = 0;
+        boolean vertical = false;
+        char navio = 'B';
+
+        boolean podeInserirNavio = tabuleiro.podeInserirNavio(exTabuleiro, linha, coluna, vertical, navio);
+
+        assertFalse(podeInserirNavio);
+    }
+	
+	 @Test
+    public void testPodeInserirNavioForaDoTabuleiro() {
+        char[][] exTabuleiro = new char[TAMANHO_TABULEIRO_][TAMANHO_TABULEIRO_];
+        int linha = 8;
+        int coluna = 8;
+        boolean vertical = true;
+        char navio = 'C';
+
+        boolean podeInserirNavio = this.tabuleiro.podeInserirNavio(exTabuleiro, linha, coluna, vertical, navio);
+
+        assertFalse(podeInserirNavio);
+    }
+	 
+	@Test
+    public void testInserirNavioVertical() {
+        char[][] exTabuleiro = new char[TAMANHO_TABULEIRO_][TAMANHO_TABULEIRO_];
+        int linha = 0;
+        int coluna = 0;
+        boolean vertical = true;
+        char navio = 'A';
+
+        tabuleiro.inserirNavio(exTabuleiro, linha, coluna, vertical, navio);
+
+        for (int i = linha; i < linha + navio - 'A' + 1; i++) {
+            assertEquals(navio, exTabuleiro[i][coluna]);
+        }
+    }
+	
+	@Test
+    public void testInserirNavioHorizontal() {
+        char[][] exTabuleiro = new char[TAMANHO_TABULEIRO_][TAMANHO_TABULEIRO_];
+        int linha = 0;
+        int coluna = 0;
+        boolean vertical = false;
+        char navio = 'A';
+
+        tabuleiro.inserirNavio(exTabuleiro, linha, coluna, vertical, navio);
+
+        for (int j = coluna; j < coluna + navio - 'A' + 1; j++) {
+            assertEquals(navio, exTabuleiro[linha][j]);
+        }
+    }
+	
+//	private JogoBatalhaNaval jogo;
+//
+//    @Before
+//    public void setUp() {
+//        jogo = new JogoBatalhaNaval();
+//    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testJogarPosicaoJaEscolhida() {
+        char[][] tabuleiroJogador = {
+                {'O', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', 'O'}
+        };
+        tabuleiro.setTabuleiroJogador(tabuleiroJogador);
+
+        int i = 0;
+        int j = 0;
+
+        tabuleiro.jogar(i, j);
+    }
+	
+	 @Test
+    public void testJogarAcertouNavio() {
+        char[][] tabuleiroGabarito = {
+                {'~', '~', '~', '~'},
+                {'~', 'B', '~', '~'},
+                {'~', '~', '~', '~'},
+                {'~', '~', '~', '~'}
+        };
+        char[][] tabuleiroJogador = {
+                {' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' '}
+        };
+        tabuleiro.setTabuleiroGabarito(tabuleiroGabarito);
+        tabuleiro.setTabuleiroJogador(tabuleiroJogador);
+
+        int i = 1;
+        int j = 1;
+
+        boolean acertouNavio = tabuleiro.jogar(i, j);
+
+        assertTrue(acertouNavio);
+        assertEquals('O', tabuleiro.getTabuleiroJogador()[i][j]);
+    }
+	
+	    @Test
+    public void testJogarErrouNavio() {
+        char[][] tabuleiroGabarito = {
+                {'~', '~', '~', '~'},
+                {'~', 'B', '~', '~'},
+                {'~', '~', '~', '~'},
+                {'~', '~', '~', '~'}
+        };
+        tabuleiro.setTabuleiroGabarito(tabuleiroGabarito);
+
+        char[][] tabuleiroJogador = {
+                {' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' '}
+        };
+        tabuleiro.setTabuleiroJogador(tabuleiroJogador);
+
+        int i = 0;
+        int j = 1;
+
+        boolean acertouNavio = tabuleiro.jogar(i, j);
+
+        assertFalse(acertouNavio);
+        assertEquals('~', tabuleiro.getTabuleiroJogador()[i][j]);
+    }
+
+	@Test
+    public void testExibirTabuleiro() {
+        char[][] exTabuleiro = {
+                {'O', ' ', ' ', 'O', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', 'O', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}
+                
+        };
+        
+        tabuleiro.setTabuleiroGabarito(exTabuleiro);
+        tabuleiro.exibirTabuleiro(exTabuleiro);
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream printStream = new PrintStream(outputStream);
+		System.setOut(printStream);
+	
+		tabuleiro.exibirTabuleiro(exTabuleiro);
+		
+		String expectedOutput = "     0      1      2      3      4      5      6      7      8      9  \n" +
+								"A  | O |  |   |  |   |  | O |  |   |  |   |  |   |  |   |  |   |  |   |" +"\n"+
+								"   -----  -----  -----  -----  -----  -----  -----  -----  -----  -----\n" +
+								"B  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |\n" +
+								"   -----  -----  -----  -----  -----  -----  -----  -----  -----  -----\n" +
+								"C  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |\n" +
+								"   -----  -----  -----  -----  -----  -----  -----  -----  -----  -----\n" +
+								"D  |   |  |   |  |   |  | O |  |   |  |   |  |   |  |   |  |   |  |   |\n" +
+								"   -----  -----  -----  -----  -----  -----  -----  -----  -----  -----\n" +
+								"E  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |\n" +
+								"   -----  -----  -----  -----  -----  -----  -----  -----  -----  -----\n" +
+								"F  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |\n" +
+								"   -----  -----  -----  -----  -----  -----  -----  -----  -----  -----\n" +
+								"G  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |\n" +
+								"   -----  -----  -----  -----  -----  -----  -----  -----  -----  -----\n" +
+								"H  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |\n" +
+								"   -----  -----  -----  -----  -----  -----  -----  -----  -----  -----\n" +
+								"I  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |\n" +
+								"   -----  -----  -----  -----  -----  -----  -----  -----  -----  -----\n" +
+								"J  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |\n" +
+								"   -----  -----  -----  -----  -----  -----  -----  -----  -----  -----\n"+"\n";
+		
+		assertEquals(expectedOutput, outputStream.toString());
+	}
+//	  private static final int TAMANHO_TABULEIRO = 10;
+//	  private char[][] tabuleiroJogador;
 //	
-//		@Test	
-//		public void testaImpressaoTabuleiroJogador(){
-//			Tabuleiro tab = new Tabuleiro();
-//			tab.imprimir();
-//		}
+//	  @Before
+//	  public void setup() {
+//	      tabuleiroJogador = new char[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO];
+//	  }
+	
+	  @Test
+	  public void testImprimir() {
+	      // Configurar o tabuleiro de exemplo
+		  int TAMANHO_TABULEIRO = 3;
+		  char[][] tabuleiroJogador = new char[3][9];
+		  tabuleiro.preencherTabuleiro(tabuleiroJogador, ' ');
+	      tabuleiroJogador[0][0] = 'O';
+	      tabuleiroJogador[1][1] = 'X';
+	      tabuleiroJogador[2][2] = '~';
+	      
+	
+	      ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+	      PrintStream printStream = new PrintStream(outputStream);
+	      System.setOut(printStream);
+	
+	      Tabuleiro tabuleiro = new Tabuleiro();
+	      tabuleiro.setTabuleiroJogador(tabuleiroJogador);
+	      tabuleiro.imprimir();
+	
+	      String expectedOutput = "     0      1      2      3      4      5      6      7      8      9  \n" +
+	              "A  | O |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  \n" +
+	              "   -----  -----  -----  -----  -----  -----  -----  -----  -----  -----\n" +
+	              "B  |   |  | X |  |   |  |   |  |   |  |   |  |   |  |   |  |   |  \n" +
+	              "   -----  -----  -----  -----  -----  -----  -----  -----  -----  -----\n" +
+	              "C  |   |  |   |  | ~ |  |   |  |   |  |   |  |   |  |   |  |   |  \n" +
+	              "   -----  -----  -----  -----  -----  -----  -----  -----  -----  -----\n";
+	
+	      assertEquals(expectedOutput, outputStream.toString());
+	  }
+}
+
+//public  void exibirTabuleiro(char[][] tabuleiro) {
+//	
+//	System.out.println("     0      1      2      3      4      5      6      7      8      9  "); // Cabeçalho das colunas
 //
-//		@Test	
-//		public void testaImpressaoTabuleiroGabarito(){
-//			Tabuleiro tab = new Tabuleiro();
-//			tab.imprimirGabarito();
-//		}
-//	   @Test
-//	    public void testAtualizarTabuleiro() {
-//		   
-//	        Tabuleiro tabuleiro = new Tabuleiro();
-//	        
-//	        int quantidadeNavios = tabuleiro.getQuantidadeNaviosRestantes();
-//	        ArrayList<Character> tiposNavios = tabuleiro.getTipoNavios();
-//	        
-//	        tabuleiro.jogar(0, 0);
-//	        tabuleiro.imprimir();
-//	        
-//	        assertEquals(quantidadeNavios - 1, tabuleiro.getQuantidadeNaviosRestantes());
-//	        assertFalse(tabuleiro.getTipoNavios().contains(tiposNavios.get(0)));
-//	    }
+//    for (int i = 0; i < TAMANHO_TABULEIRO; i++) {
+//		System.out.print( (char)(i + 65) + " "); // Número da linha
 //
-//		@Test
-//		public void testaJogar(){
-//			Tabuleiro tabuleiro = new Tabuleiro();
-//			assertTrue(tabuleiro.jogar(1,1));
-//		}
-//		
+//        for (int j = 0; j < TAMANHO_TABULEIRO; j++) {
+//            System.out.print( " | " + tabuleiro[i][j]  + " | ");
+//        }
+//		System.out.print("\n   -----  -----  -----  -----  -----  -----  -----  -----  -----  -----");
+//
+//        System.out.println(); // Próxima linha
+//    }
+//}
+
+
+
+
+

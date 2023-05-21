@@ -9,6 +9,7 @@ public class JogoMultiplayer {
 	private Tabuleiro tabuleiro;
 	private boolean jogadorDaVez;// false - J1 / true - J2
 
+	
 	public void iniciarJogo() {
 		this.tabuleiro = new Tabuleiro();
 		this.jogadorDaVez = true;
@@ -84,8 +85,31 @@ public class JogoMultiplayer {
 	public boolean getJogadorDaVez(){
 		return this.jogadorDaVez;
 	}
+	public void setJogadorDaVez(boolean jogador){
+		this.jogadorDaVez=jogador;
+	}
 
 	public void imprimirGabarito(){
 		tabuleiro.imprimirGabarito();
 	}
+
+	public void setJogador1(Jogador jogador1) {
+		this.jogador1=jogador1;
+		
+	}
+
+	public void setJogador2(Jogador jogador2) {
+		this.jogador2=jogador2;
+		
+	}
+	public void setTabuleiro(Tabuleiro tabuleiro) {
+		this.tabuleiro=tabuleiro;
+		
+	}
+
+	public Tabuleiro getTabuleiro() {
+		// TODO Auto-generated method stub
+		return tabuleiro;
+	}
+	
 }
