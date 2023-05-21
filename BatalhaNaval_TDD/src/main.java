@@ -8,7 +8,7 @@ public class main {
 	
     public static void main(String[] args){
         JogoMultiplayer jogo = new JogoMultiplayer();
-        jogo.iniciarJogo();
+        
         Scanner sc = new Scanner(System.in);
         System.out.println("====================================\n");       
         System.out.println("   Bem-vindo ao jogo Batalha Naval\n"  );
@@ -27,38 +27,36 @@ public class main {
         String partida;
         do{
             //IMPRIME GABARITO
+        	jogo.iniciarJogo();
             jogo.imprimirGabarito();
             //
             System.out.println("Digite o nome do jogador 1");
-            String nomeJ1 = sc.nextLine();
+            String nomeJ1 = sc.next();
             jogo.escolherJogador1(nomeJ1);
             System.out.println("Digite o nome do jogador 2");
-            String nomeJ2 = sc.nextLine();
+            String nomeJ2 = sc.next();
             jogo.escolherJogador2(nomeJ2);
             
 
             while(jogo.jogoValendo()){
                 String jogadorDaVez = jogo.getJogadorDaVez() ? jogo.getJogador1().getNome() : jogo.getJogador2().getNome();
                 System.out.println("Jogador atual: "+jogadorDaVez);
-                System.out.println("Escolha uma linha entre A e J");
-                String linha = sc.next();
-                System.out.println("Escolha uma coluna entre 0 e 9");
-                String coluna = sc.next();
-            
-                try{
-                    jogo.jogar(linha, coluna);
-                }catch(IllegalArgumentException e){
-                    System.out.println(e.getMessage());
-        			System.out.println("***************************************************************************");
-                    continue;
-                }
+                
+                System.out.println("Escolha uma linha entre A e J e uma coluna entre 0 e 9 (Ex: B4)");
+                String coordenada = sc.next();
+                try {
+                	jogo.jogar(coordenada);                	
+                }catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+                
                 System.out.println(String.format("Placar - %s-%d / %s-%d",
                 jogo.getJogador1().getNome(),jogo.getJogador1().getPlacar(),
                 jogo.getJogador2().getNome(),jogo.getJogador2().getPlacar()));
             }
 
-            System.out.println("Deseja jogar novamente?S/N\n");
-            partida = sc.nextLine();
+            System.out.println("Deseja jogar novamente?S/N");
+            partida = sc.next();
             partida.toLowerCase();
         }while(partida.equals("s"));
         

@@ -50,13 +50,14 @@ public class JogoMultiplayer {
 		}
 	}
 
-	public void jogar(String i, String j){
-		i.toUpperCase();
-        int posLinha = i.charAt(0)-'A';
+	public void jogar(String coordenada){
+		//B4
+		coordenada.toUpperCase();
+        int posLinha = coordenada.charAt(0)-'A';
 
 		int posColuna = 0;
 		try{
-			posColuna = Integer.parseInt(j);
+			posColuna = Character.getNumericValue(coordenada.charAt(1));
 		}catch(Exception e){
 			System.out.println("Coluna inválida! Tente novamente...");
 		}

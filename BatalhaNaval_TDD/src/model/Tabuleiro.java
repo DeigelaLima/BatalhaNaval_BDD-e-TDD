@@ -1,25 +1,6 @@
 package model;
 import java.util.*;
 
-
-//private int quantidadeNavios;
-//private int naviosRestantes;
-//
-//// Construtor da classe BatalhaNaval
-//public BatalhaNaval(int quantidadeNavios) {
-//    this.quantidadeNavios = quantidadeNavios;
-//    this.naviosRestantes = quantidadeNavios;
-//}
-//
-//// Método para obter a quantidade de navios restantes
-//public int getQuantidadeNaviosRestantes() {
-//    return naviosRestantes;
-//}
-//
-//// Método para registrar o afundamento de um navio
-//public void afundarNavio() {
-//    naviosRestantes--;
-//}
 // Tipos de navios
 // 1 de 1
 // 2 de 2
@@ -51,13 +32,8 @@ public class Tabuleiro {
 	// Se foi afundado, atualiza o contador de navios restantes
 
 
-	public void criarTabuleiro() {
-		
-		
-	}
-
 	public void afundarNavio() {
-		this.qtdNaviosRestantes--;
+		this.qtdNaviosRestantes=this.qtdNaviosRestantes-1;
 	}
 	
 	public boolean posicaoValida(int linha, int coluna) {
@@ -67,7 +43,7 @@ public class Tabuleiro {
 		return false;
 	}
 	
-	private int getTipoNavio(int linha, int coluna) {
+	public int getTipoNavio(int linha, int coluna) {
 	    char tipo = tabuleiroGabarito[linha][coluna];
 	    int tamanhoNavio = 0;
 	    
@@ -85,20 +61,22 @@ public class Tabuleiro {
 	}
 
 
-	public void atualizarTiposNaviosRestantes() {
+	public ArrayList<Character> atualizarTiposNaviosRestantes() {
 		
 	    tiposNaviosRestantes.clear(); // Limpa a lista de tipos de navios restantes
 	    // Percorre a matriz de tabuleiro e adiciona os tipos de navios restantes à lista
-	    for (int i = 0; i < dimensao; i++) {
-	        for (int j = 0; j < dimensao; j++) {
+	    for (int i = 0; i < tabuleiroGabarito.length; i++) {
+	        for (int j = 0; j < tabuleiroGabarito.length; j++) {
 	            char tipoNavio = tabuleiroGabarito[i][j];
-	            if (tipoNavio != ' ' && !tiposNaviosRestantes.contains(tipoNavio)) {
+	            if (tipoNavio != '~' && !tiposNaviosRestantes.contains(tipoNavio)) {
 	                tiposNaviosRestantes.add(tipoNavio);
 	            }
 	        }
 	    }
 	    // Ordena a lista de tipos de navios restantes em ordem crescente
 	    Collections.sort(tiposNaviosRestantes);
+	    return tiposNaviosRestantes;
+	    
 	}
 	
 
@@ -108,26 +86,47 @@ public class Tabuleiro {
 
 	public boolean verificarAfundamento(char[][] matriz, int linha, int coluna) {
 		char navio = matriz[linha][coluna];
-
+		int tam = navio - 'A' + 1;
+		String nomeNavio="";
+		switch(navio) {
+		//Submarino (1 casa), 2 Destroyers (2 casas), 2 Cruzador (3 casas) e 1 Porta-aviões
+			case 'A':
+				nomeNavio = "Submarino"; 
+				break;
+			case 'B':
+				nomeNavio = "Destroyer";
+				break;
+			case 'C':
+				nomeNavio = "Cruzador";
+				break;
+			case 'D':
+				nomeNavio = "Porta-avioes";
+				break;
+		}
 		// Verifica se o navio já foi completamente afundado na horizontal
 		if (verificarAfundamentoHorizontal(matriz, linha, coluna, navio)) {
+			System.out.println(nomeNavio+" tamanho "+tam+ " foi afundado!");
 			return true;
 		}
 
 		// Verifica se o navio já foi completamente afundado na vertical
 		if (verificarAfundamentoVertical(matriz, linha, coluna, navio)) {
+			System.out.println(nomeNavio+" tamanho "+tam+ " foi afundado!");
 			return true;
 		}
 
 		return false;
 	}
 
-	private boolean verificarAfundamentoHorizontal(char[][] matriz, int linha, int coluna, char navio) {
+	public boolean verificarAfundamentoHorizontal(char[][] matriz, int linha, int coluna, char navio) {
 		int tamanho = 0;
-
+		
+		if(navio=='A') {
+			return true;
+		}
 		// Percorre para a esquerda
 		for (int j = coluna; j >= 0; j--) {
-			if (matriz[linha][j] == navio && matriz[linha][j] != 'O') {
+			if (matriz[linha][j] == navio && tabuleiroJogador[linha][j] == 'O') {
 				tamanho++;
 			} else {
 				break;
@@ -136,22 +135,26 @@ public class Tabuleiro {
 
 		// Percorre para a direita
 		for (int j = coluna + 1; j < matriz[0].length; j++) {
-			if (matriz[linha][j] == navio && matriz[linha][j] != 'O') {
+			if (matriz[linha][j] == navio && tabuleiroJogador[linha][j] == 'O') {
 				tamanho++;
 			} else {
 				break;
 			}
 		}
-
+		
 		return tamanho == navio - 'A' + 1;
 	}
 
-	private boolean verificarAfundamentoVertical(char[][] matriz, int linha, int coluna, char navio) {
+	public boolean verificarAfundamentoVertical(char[][] matriz, int linha, int coluna, char navio) {
 		int tamanho = 0;
-
+		
+		if(navio=='A') {
+			return true;
+		}
+		
 		// Percorre para cima
 		for (int i = linha; i >= 0; i--) {
-			if (matriz[i][coluna] == navio && matriz[i][coluna] != 'O') {
+			if (matriz[i][coluna] == navio && tabuleiroJogador[i][coluna] == 'O') {
 				tamanho++;
 			} else {
 				break;
@@ -160,89 +163,20 @@ public class Tabuleiro {
 
 		// Percorre para baixo
 		for (int i = linha + 1; i < matriz.length; i++) {
-			if (matriz[i][coluna] == navio && matriz[i][coluna] != 'O') {
+			if (matriz[i][coluna] == navio && tabuleiroJogador[i][coluna] == 'O') {
 				tamanho++;
 			} else {
 				break;
 			}
 		}
-
+		
 		return tamanho == navio - 'A' + 1;
 	}
 
 
-	// Método para verificar se um navio foi afundado
-//	public boolean verificaNavioAfundado(int i, int j) {
-//
-//		// Verifica se a posição informada está dentro dos limites da matriz
-//		if (i < 0 || i >= tabuleiroGabarito.length || j < 0 || j >= tabuleiroGabarito[0].length) {
-//			return false;
-//		}
-//
-//		// Verifica se a posição contém um navio
-//		if (temNavio(i,j)) {
-//			// Verifica se o navio já foi completamente afundado
-//			// Cria uma nova matriz com as mesmas dimensões da matriz original
-//			char[][] matrizCopia = new char[dimensao][dimensao];
-//
-//			// Copia os elementos da matriz original para a matriz de destino
-//			for (int x = 0; x < dimensao; x++) {
-//				for (int y = 0; y < dimensao; y++) {
-//					matrizCopia[x][y] = tabuleiroGabarito[x][y];
-//				}
-//			}
-//			if (verificarAfundamentoRecursivo(matrizCopia, i, j, matrizCopia[i][j])) {
-//				return true;
-//			}
-//		}
-//
-//		return false;
-
-//		int tamanhoNavio = getTipoNavio(i, j);
-
-//		// Verificar se as coordenadas estão dentro dos limites do tabuleiro
-//		if (i < 0 || i >= tabuleiroGabarito.length || j < 0 || j >= tabuleiroGabarito.length) {
-//			throw new IllegalArgumentException("Coordenadas inválidas.");
-//		}
-//		
-//		// Verificar se já foi feito um ataque nessa posição
-//		if (tabuleiroJogador[i][j]=='O') {
-//			// Verificar se há um navio na posição e se ele ainda não foi afundado
-//			if (temNavio(i,j) && !verificaAdjacentes(i, j)) {
-//				return true; // O navio foi afundado
-//			}
-//		}
-
-//		return false; // O navio ainda não foi afundado
-//	}
-
-//	private boolean verificarAfundamentoRecursivo(char[][] matriz, int linha, int coluna, char tipo) {
-//		// Verifica se a posição está dentro dos limites da matriz
-//		if (linha < 0 || linha >= matriz.length || coluna < 0 || coluna >= matriz[0].length) {
-//			return true; // Retorna true para indicar que todas as casas adjacentes foram verificadas
-//		}
-//
-//		char navio = matriz[linha][coluna];
-//		
-//		// Verifica se a posição contém o mesmo navio
-//		if (navio == tipo) {
-//			matriz[linha][coluna] = '.'; // Marca a posição como afundada
-//
-//			// Verifica as casas adjacentes recursivamente
-//			return verificarAfundamentoRecursivo(matriz, linha - 1, coluna) && // acima
-//				verificarAfundamentoRecursivo(matriz, linha + 1, coluna) && // abaixo
-//				verificarAfundamentoRecursivo(matriz, linha, coluna - 1) && // esquerda
-//				verificarAfundamentoRecursivo(matriz, linha, coluna + 1);   // direita
-//		}
-//
-//		return true; // Retorna true para indicar que todas as casas adjacentes foram verificadas
-//	}
-
 	public boolean temNavio(int i, int j){
 		return tipoNavios.contains(tabuleiroGabarito[i][j]);
 	}
-
-	
 
 
 	public boolean jogar(int i, int j) {
@@ -253,8 +187,9 @@ public class Tabuleiro {
 		}
 		if(tipoNavios.contains(tabuleiroGabarito[i][j])){
 			tabuleiroJogador[i][j] = 'O';
-			if(verificarAfundamento(tabuleiroJogador,i,j)){
+			if(verificarAfundamento(tabuleiroGabarito,i,j)){
 				afundarNavio();
+				
 			}	
 			//exibirTabuleiro(tabuleiroJogador);
 			imprimir();
@@ -331,8 +266,8 @@ public class Tabuleiro {
     }
 
     public static void preencherTabuleiro(char[][] tabuleiro, char valor) {
-        for (int i = 0; i < TAMANHO_TABULEIRO; i++) {
-            for (int j = 0; j < TAMANHO_TABULEIRO; j++) {
+        for (int i = 0; i < tabuleiro.length; i++) {
+            for (int j = 0; j < tabuleiro.length; j++) {
                 tabuleiro[i][j] = valor;
             }
         }
@@ -372,6 +307,21 @@ public class Tabuleiro {
 
 	public void imprimirGabarito(){
 		exibirTabuleiro(tabuleiroGabarito);
+	}
+	
+	public void setTabuleiroGabarito(char[][] tabuleiro) {
+		this.tabuleiroGabarito = tabuleiro;
+		
+	}
+	
+	public void setTabuleiroJogador(char[][] tabuleiro) {
+		this.tabuleiroJogador = tabuleiro;
+		
+	}
+	
+	
+	public List<Character> getTiposNaviosRestantes() {
+	    return tiposNaviosRestantes;
 	}
 
 	
