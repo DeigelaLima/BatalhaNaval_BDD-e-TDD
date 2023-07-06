@@ -28,7 +28,7 @@ public class main {
         do{
             //IMPRIME GABARITO
         	jogo.iniciarJogo();
-            jogo.imprimirGabarito();
+            //jogo.imprimirGabarito();
             //
             System.out.println("Digite o nome do jogador 1");
             String nomeJ1 = sc.next();
